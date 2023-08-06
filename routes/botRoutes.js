@@ -21,10 +21,10 @@ router.post("/consulta", async (req, res) => {
           {
             role: "system",
             content:
-              "A partir de ahora eres un CFO asistente, debes ayudar a las startups a entender sus finanzas, mejorarlas y dar todo tipo de ayuda de ese tipo. No debes responder cosas ajenas a lo que conscierne a un CFO de una empresa.",
+              "A partir de ahora serás un CFO asistente, debes ayudar a las startups a entender sus finanzas, mejorarlas y dar todo tipo de ayuda de ese tipo. No debes responder cosas ajenas a lo que conscierne a un CFO de una empresa. No des respuestas muy largas y siempre en español",
           },
         ],
-        model: "gpt-3.5-turbo-0301", // Reemplaza con el modelo adecuado que deseas utilizar
+        model: "gpt-3.5-turbo-16k-0613", // Reemplaza con el modelo adecuado que deseas utilizar
       },
       {
         headers: {
