@@ -1,8 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const bcrypt = require("bcrypt");
 const archivoBD = require("./conection");
 const PORT = process.env.PORT || 5000;
+const User = require("./models/User"); // Importa el modelo de manera correcta
 
 // Conexion a MongoDB
 const mongoose = require("mongoose");
@@ -17,6 +19,8 @@ objetobd.on("connected", () => {
 objetobd.on("error", () => {
   console.log("Conexion incorrecta a MongoDB");
 });
+
+app.use(express.json());
 
 // Configura el middleware de CORS antes de definir las rutas
 app.use(

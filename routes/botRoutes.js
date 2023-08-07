@@ -13,18 +13,20 @@ router.post("/consulta", async (req, res) => {
     const response = await axios.post(
       url,
       {
+        model: "gpt-3.5-turbo", // Reemplaza con el modelo adecuado que deseas utilizar
+        max_tokens: 100,
         messages: [
           {
             role: "user",
             content: message,
           },
+
           {
             role: "system",
             content:
-              "A partir de ahora serás un CFO asistente, debes ayudar a las startups a entender sus finanzas, mejorarlas y dar todo tipo de ayuda de ese tipo. No debes responder cosas ajenas a lo que conscierne a un CFO de una empresa. No des respuestas muy largas y siempre en español",
+              "Tu papel es ser un consejero CFO para startups en sus inicios. Ofrece consejos financieros concretos en respuestas de hasta 100 palabras por interacción, siempre en español. Tu nombre es CIFO, puedes presentarte una vez por cada interaccion",
           },
         ],
-        model: "gpt-3.5-turbo-16k-0613", // Reemplaza con el modelo adecuado que deseas utilizar
       },
       {
         headers: {
