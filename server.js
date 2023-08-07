@@ -22,39 +22,6 @@ objetobd.on("error", () => {
 
 app.use(express.json());
 
-// app.post("/register", async (req, res) => {
-//   const { username, password, email } = req.body;
-//   try {
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const newUser = new User({ username, password: hashedPassword, email });
-//     await newUser.save();
-//     res.status(200).send("usuario registrado");
-//   } catch (error) {
-//     res.status(500).send("error al registrar usuario");
-//   }
-// });
-
-// app.post("/login", async (req, res) => {
-//   const { username, password } = req.body;
-//   User.findOne({ username }, (err, user) => {
-//     if (err) {
-//       res.status(500).send("error al validar usuario");
-//     } else if (!user) {
-//       res.status(500).send("usuario inexistente");
-//     } else {
-//       user.isCorrectPassword(password, (err, result) => {
-//         if (err) {
-//           res.status(500).send("error al autenticar");
-//         } else if (result) {
-//           res.status(200).send("exito al autenticar");
-//         } else {
-//           res.status(500).send("usuario y/o contraseña incorrecta");
-//         }
-//       });
-//     }
-//   });
-// });
-
 // Configura el middleware de CORS antes de definir las rutas
 app.use(
   cors({
