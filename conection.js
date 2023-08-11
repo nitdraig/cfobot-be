@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://127.0.0.1:27017/cfo-db");
+mongoose.connect(
+  "mongodb+srv://agustin2051:tnsVqW1l9RLbXltK@cfobot.jrtkdgg.mongodb.net/"
+);
 
 const objetobd = mongoose.connection;
 

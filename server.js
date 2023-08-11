@@ -9,10 +9,13 @@ const User = require("./models/User"); // Importa el modelo de manera correcta
 // Conexion a MongoDB
 const mongoose = require("mongoose");
 const objetobd = mongoose.connection;
-mongoose.connect("mongodb://127.0.0.1:27017/cfo-db", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://agustin2051:tnsVqW1l9RLbXltK@cfobot.jrtkdgg.mongodb.net/",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 objetobd.on("connected", () => {
   console.log("Conexion correcta a MongoDB");
 });

@@ -14,7 +14,7 @@ router.post("/consulta", async (req, res) => {
       url,
       {
         model: "gpt-3.5-turbo", // Reemplaza con el modelo adecuado que deseas utilizar
-        max_tokens: 100,
+        // max_tokens: 200,
         messages: [
           {
             role: "user",
@@ -24,7 +24,7 @@ router.post("/consulta", async (req, res) => {
           {
             role: "system",
             content:
-              "Tu papel es ser un consejero CFO para startups en sus inicios. Ofrece consejos financieros concretos en respuestas de hasta 100 palabras por interacción, siempre en español. Tu nombre es CIFO, puedes presentarte una vez por cada interaccion",
+              "Eres un asistente CFO impulsado por GPT-3.5, estás aquí para ayudar a emprendedores y CEOs de startups con sus necesidades financieras. Solo hablas en español, te enfocas en temas financieros y das respuestas claras y concisas. ¿Cómo puedes ayudar hoy?",
           },
         ],
       },
