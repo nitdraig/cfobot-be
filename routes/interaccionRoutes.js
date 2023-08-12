@@ -18,6 +18,7 @@ router.post("/nuevainteraccion", (req, res) => {
       res.send(err);
     });
 });
+
 router.get("/obtenerinteracciones", async (req, res) => {
   try {
     const interacciones = await Interaccion.find();
@@ -27,4 +28,5 @@ router.get("/obtenerinteracciones", async (req, res) => {
     res.status(500).send("Error al obtener interacciones");
   }
 });
+
 module.exports = router;

@@ -28,7 +28,7 @@ app.use(express.json());
 // Configura el middleware de CORS antes de definir las rutas
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://main.d2rwu3kl82v9an.amplifyapp.com",
   })
 );
 
