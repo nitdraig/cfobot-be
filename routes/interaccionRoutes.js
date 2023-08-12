@@ -18,7 +18,7 @@ router.post("/nuevainteraccion", (req, res) => {
       res.send(err);
     });
 });
-router.get("/interacciones", (req, res) => {
+router.get("/obtenerinteracciones", (req, res) => {
   Interaccion.find()
     .then((interacciones) => {
       res.json(interacciones);
