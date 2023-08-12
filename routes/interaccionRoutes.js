@@ -18,5 +18,14 @@ router.post("/nuevainteraccion", (req, res) => {
       res.send(err);
     });
 });
+router.get("/interacciones", (req, res) => {
+  Interaccion.find()
+    .then((interacciones) => {
+      res.json(interacciones);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+});
 
 module.exports = router;
