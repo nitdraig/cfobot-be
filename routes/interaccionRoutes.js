@@ -18,14 +18,13 @@ router.post("/nuevainteraccion", (req, res) => {
       res.send(err);
     });
 });
-router.get("/nuevainteraccion", (req, res) => {
-  Interaccion.find()
-    .then((interacciones) => {
-      res.json(interacciones);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
+router.get("/obtenerinteracciones", async (req, res) => {
+  try {
+    const interacciones = await Interaccion.find();
+    res.json(interacciones);
+  } catch (error) {
+    console.error("Error al obtener interacciones:", error);
+    res.status(500).send("Error al obtener interacciones");
+  }
 });
-
 module.exports = router;
