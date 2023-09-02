@@ -7,7 +7,7 @@ router.post("/consulta", async (req, res) => {
   const { message } = req.body; // Obtener el mensaje del cuerpo de la solicitud
 
   const url = "https://api.openai.com/v1/chat/completions";
-  const token = "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"; // Reemplaza con tu token de autorización válido
+  const token = "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"; // Reemplaza con tu token de autorización válido
 
   try {
     const response = await axios.post(
