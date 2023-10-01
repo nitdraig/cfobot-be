@@ -29,7 +29,6 @@ app.use(express.json());
 app.use(
   cors({
     origin: "https://cfobot-fe.vercel.app/",
-    origin: "http://localhost:3000",
   })
 );
 
