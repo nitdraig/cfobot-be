@@ -28,7 +28,7 @@ app.use(express.json());
 // Configura el middleware de CORS antes de definir las rutas
 app.use(
   cors({
-    origin: "https://cfobot-fe.vercel.app/",
+    origin: "https://cfobot-fe.vercel.app",
   })
 );
 
