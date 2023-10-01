@@ -52,12 +52,14 @@
 // });
 
 // module.exports = router;
+
+//Google Bard API
 const express = require("express");
 const router = express.Router();
 const { DiscussServiceClient } = require("@google-ai/generativelanguage");
 const { GoogleAuth } = require("google-auth-library");
 
-const MODEL_NAME = "models/text-bison-32k";
+const MODEL_NAME = "models/chat-bison-001";
 const API_KEY = "AIzaSyAKGjgW1VaHdUIsWn6lDxsQpqYWVtsOA6I"; // Reemplaza con tu clave de API válida
 
 const client = new DiscussServiceClient({
@@ -91,3 +93,5 @@ router.post("/consulta", async (req, res) => {
 });
 
 module.exports = router;
+
+const express = require("express");
