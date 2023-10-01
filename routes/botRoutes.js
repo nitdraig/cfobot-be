@@ -53,7 +53,7 @@
 
 // module.exports = router;
 
-//Google Bard API
+//Google
 const express = require("express");
 const router = express.Router();
 const { DiscussServiceClient } = require("@google-ai/generativelanguage");
@@ -93,5 +93,3 @@ router.post("/consulta", async (req, res) => {
 });
 
 module.exports = router;
-
-const express = require("express");
