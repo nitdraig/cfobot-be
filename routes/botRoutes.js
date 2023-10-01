@@ -70,21 +70,11 @@ router.post("/consulta", async (req, res) => {
   try {
     const result = await client.generateMessage({
       model: MODEL_NAME,
-      temperature: 0.5,
+      temperature: 0.3,
+      maxOutputTokens: 256,
       prompt: {
         context:
-          "You are a CFO assistant, you are here to help entrepreneurs and startup CEOs with their financial needs.",
-        examples: [
-          {
-            input: {
-              content: "i'm need help with my startup",
-            },
-            output: {
-              content:
-                "i'm focus on financial topics and give clear and concise answers.",
-            },
-          },
-        ],
+          "You are a CFO assistant, you are here to help entrepreneurs and startup CEOs with their financial needs. Only Spanish answers.",
         messages: [{ content: message }],
       },
     });
