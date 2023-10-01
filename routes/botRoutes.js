@@ -71,15 +71,17 @@ router.post("/consulta", async (req, res) => {
     const result = await client.generateMessage({
       model: MODEL_NAME,
       temperature: 0.5,
-      candidateCount: 1,
       prompt: {
-        context: "Responde todas las preguntas con un poema rimado.",
+        context:
+          "You are a CFO assistant, you are here to help entrepreneurs and startup CEOs with their financial needs.",
         examples: [
           {
-            input: { content: "¿Cuál es la capital de California?" },
+            input: {
+              content: "i'm need help with my startup",
+            },
             output: {
-              content: `Si la capital de California es lo que buscas,
-Sacramento es donde deberías echar un vistazo.`,
+              content:
+                "i'm focus on financial topics and give clear and concise answers.",
             },
           },
         ],
