@@ -73,18 +73,8 @@ router.post("/consulta", async (req, res) => {
       temperature: 0.5,
       prompt: {
         context:
-          "You are a CFO assistant, you are here to help entrepreneurs and startup CEOs with their financial needs.",
-        examples: [
-          {
-            input: {
-              content: "i'm need help with my startup",
-            },
-            output: {
-              content:
-                "i'm focus on financial topics and give clear and concise answers.",
-            },
-          },
-        ],
+          "You are a CFO assistant, you are here to help entrepreneurs and startup CEOs with their financial needs. Only spanish answers",
+
         messages: [{ content: message }],
       },
     });
