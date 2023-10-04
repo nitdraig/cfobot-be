@@ -105,62 +105,55 @@
 // module.exports = router;
 const express = require("express");
 const router = express.Router();
-const { exec } = require("child_process"); // Importa la función exec para ejecutar el comando de cURL
+const axios = require("axios");
 
-router.post("/consulta", (req, res) => {
+const API_ENDPOINT = "us-central1-aiplatform.googleapis.com";
+const PROJECT_ID = "stately-bulwark-400722";
+const MODEL_ID = "chat-bison-32k";
+
+router.post("/consulta", async (req, res) => {
   const { message } = req.body; // Obtener el mensaje del cuerpo de la solicitud
 
-  // Comando de cURL adaptado
-  const curlCommand = `
-    API_ENDPOINT="us-central1-aiplatform.googleapis.com"
-    PROJECT_ID="stately-bulwark-400722"
-    MODEL_ID="chat-bison-32k"
-
-    curl \\
-    -X POST \\
-    -H "Authorization: Bearer $(gcloud auth print-access-token)" \\
-    -H "Content-Type: application/json" \\
-    "https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/us-central1/publishers/google/models/${MODEL_ID}:predict" -d \\
-    $'{
-        "instances": [
-            {
-                "context": "You are a CFO assistant, you are here to help entrepreneurs and startup CEOs with their financial needs. Only Spanish answers.",
-                "examples": [],
-                "messages": [
-                    {
-                        "author": "user",
-                        "content": "${message}" // Reemplaza el contenido del mensaje con el mensaje de la solicitud
-                    }
-                ]
-            }
+  try {
+    const response = await axios.post(
+      `https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/us-central1/publishers/google/models/${MODEL_ID}:predict`,
+      {
+        instances: [
+          {
+            context:
+              "You are a CFO assistant, you are here to help entrepreneurs and startup CEOs with their financial needs. Only spanish answers.",
+            examples: [],
+            messages: [
+              {
+                author: "user",
+                content: message,
+              },
+            ],
+          },
         ],
-        "parameters": {
-            "maxOutputTokens": 1024,
-            "temperature": 0.2,
-            "topP": 0.8,
-            "topK": 40
-        }
-    }'`;
-
-  // Ejecuta el comando de cURL
-  exec(curlCommand, (error, stdout, stderr) => {
-    if (error) {
-      console.error("Error al ejecutar cURL:", error);
-      res.status(500).json({ error: "Error al ejecutar cURL" });
-    } else {
-      // Parsea la respuesta JSON de cURL
-      try {
-        const response = JSON.parse(stdout);
-        const generatedResponse = response.predictions[0]; // Obtén la respuesta generada
-
-        // Envía la respuesta generada al frontend
-        res.json({ generatedResponse });
-      } catch (parseError) {
-        console.error("Error al analizar la respuesta JSON:", parseError);
-        res.status(500).json({ error: "Error al analizar la respuesta JSON" });
+        parameters: {
+          maxOutputTokens: 1024,
+          temperature: 0.2,
+          topP: 0.8,
+          topK: 40,
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.GOOGLE_AUTH_TOKEN}`, // Asegúrate de establecer GOOGLE_AUTH_TOKEN como una variable de entorno que contenga el token de autenticación
+          "Content-Type": "application/json",
+        },
       }
-    }
-  });
+    );
+
+    const generatedResponse = response.data.predictions[0].generated_text; // Asegúrate de verificar la estructura de la respuesta para obtener el texto generado
+
+    // Aquí debes manejar cómo deseas enviar la respuesta al frontend
+    res.json({ generatedResponse });
+  } catch (error) {
+    console.error("Error al generar el mensaje:", error);
+    res.status(500).json({ error: "Error al generar el mensaje" });
+  }
 });
 
 module.exports = router;
