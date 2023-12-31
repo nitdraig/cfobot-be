@@ -58,43 +58,71 @@ const express = require("express");
 const router = express.Router();
 const { DiscussServiceClient } = require("@google-ai/generativelanguage");
 const { GoogleAuth } = require("google-auth-library");
-
-const MODEL_NAME = "models/chat-bison-001";
-const API_KEY = "AIzaSyAKGjgW1VaHdUIsWn6lDxsQpqYWVtsOA6I"; // Reemplaza con tu clave de API válida
+const {
+  GoogleGenerativeAI,
+  HarmCategory,
+  HarmBlockThreshold,
+} = require("@google/generative-ai");
+require("dotenv").config();
+const MODEL_NAME = "gemini-pro";
+const API_KEY = process.env.API_KEY_AI; // Reemplaza con tu clave de API válida
 
 const client = new DiscussServiceClient({
   authClient: new GoogleAuth().fromAPIKey(API_KEY),
 });
-
 router.post("/consulta", async (req, res) => {
-  const { message } = req.body; // Obtener el mensaje del cuerpo de la solicitud
+  const { message } = req.body;
 
   try {
-    const result = await client.generateMessage({
-      model: MODEL_NAME,
-      temperature: 0.2,
-      maxOutputTokens: 256,
-      prompt: {
-        context:
-          "You are FER, an assistant CFO. You work to  of Excelso. You are here to help entrepreneurs and startup CEOs with their financial needs.\n\nHelp with the following:\n\nAnswer your questions about business finances. If you have any questions about how to manage your company's finances, don't hesitate to ask me.\nI will do my best to give you a clear and concise answer.\nOffer you financial resources. If you need help finding financial information or tools, I can help you find the resources you need.\nConnect with other financial professionals. If you need more specialized advice,\nI can connect you with other financial professionals who can help you.",
-        examples: [
-          {
-            input: {
-              content: "i'm need help with my startup",
-            },
-            output: {
-              content:
-                "Of course, I can help you with your startup. What exactly do you need help with?\n\nHere are some general tips to help startups succeed:\n\nHave a clear and well-defined idea. What is the problem your startup solves? Who are your clients? How will you differentiate yourself from the competition?\nBuild a solid team.\nSurrounding yourself with talented and committed people is essential to the success of any company.\nCreate a solid business plan. Your business plan should define your objectives, strategies and financial projections.\nManage your finances well.\nIt is important to have a realistic budget and follow a financial plan so you can make informed decisions.\nConnect with your target market. Research your potential customers and understand their needs.\nBe flexible and adaptable. The market is constantly changing, so it is important to be willing to adapt to changes.\nDo not give up. The path of an entrepreneur is difficult, but it is important to never give up.\nIf you can follow these tips, you will be on the right path to startup success.\n\nCan you give me more details about your startup? What stage of development is it in? What are your main challenges?\n\nOnce you know more about your company,\nI will be able to give you more specific advice.",
-            },
-          },
-        ],
-        messages: [{ content: message }],
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+
+    const generationConfig = {
+      temperature: 0.4,
+      topK: 1,
+      topP: 0.15,
+      maxOutputTokens: 300,
+    };
+
+    const safetySettings = [
+      {
+        category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+        threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
       },
+      {
+        category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+        threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+      },
+      {
+        category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+        threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+      },
+      {
+        category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+        threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+      },
+    ];
+
+    const chat = model.startChat({
+      generationConfig,
+      safetySettings,
+      history: [
+        {
+          role: "user",
+          parts:
+            "A partir de ahora eres un CFO consultor de startups y emprendimientos. Debes asesorar en español, de forma clara, concreta y simple. Evita más de 300 caracteres por respuesta:\nTu nombre es FER, y debes ayudar a cualquiera que te consulte.",
+        },
+        {
+          role: "model",
+          parts:
+            "¡Hola! Soy FER, tu CFO consultor de startups y emprendimientos. Estoy aquí para ayudarte a tomar decisiones financieras acertadas y llevar tu negocio al éxito.\n\n**¿Tienes alguna duda o necesitas asesoramiento? Escríbeme y estaré encantado de ayudarte.**\n\n*Estas son algunas áreas en las que puedo ayudarte:*\n\n* ... (resto de las áreas)",
+        },
+      ],
     });
 
-    const generatedResponse = result[0].candidates[0].content;
+    const result = await chat.sendMessage(message);
+    const generatedResponse = result.response.text();
 
-    // Aquí debes manejar cómo deseas enviar la respuesta al frontend
     res.json({ generatedResponse });
   } catch (error) {
     console.error("Error al generar el mensaje:", error);

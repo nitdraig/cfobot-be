@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Interaccion = require("../models/interaccionSave"); // Importa el modelo
+const Interaccion = require("../models/interaccionSave");
 
 router.post("/nuevainteraccion", (req, res) => {
   const nuevainteraccion = new Interaccion({

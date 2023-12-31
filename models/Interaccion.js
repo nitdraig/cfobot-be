@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const interaccionSchema = new mongoose.Schema({
-  role: String, // Puede ser 'user' o 'bot'
+  role: String,
   content: String,
   timestamp: {
     type: Date,
