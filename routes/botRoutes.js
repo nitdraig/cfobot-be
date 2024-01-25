@@ -9,7 +9,7 @@ const {
 } = require("@google/generative-ai");
 require("dotenv").config();
 const MODEL_NAME = "gemini-pro";
-const API_KEY = process.env.API_KEY_AI; // Reemplaza con tu clave de API válida
+const API_KEY = process.env.API_KEY_AI;
 
 const client = new DiscussServiceClient({
   authClient: new GoogleAuth().fromAPIKey(API_KEY),
